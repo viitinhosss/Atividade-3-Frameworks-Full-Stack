@@ -1,0 +1,54 @@
+<html>
+    <form name="name_form" id="name_form" >
+        <input type="text" id="name" name="name" placeholder="Primeiro Nome">
+        <input type="text" id="time" name="time" placeholder="Time">
+        <select name="role" id="role">
+            <option value="levantador">levantador</option>
+            <option value="líbero">líbero</option>
+            <option value="meio de rede">meio de rede</option>
+            <option value="ponta esquerda">ponta esquerda</option>
+            <option value="ponta direita">ponta direita</option>
+            <option value="oposto">oposto</option>
+          </select>
+        <input type="submit" id="envio" name="envio">
+        <input type="text" id="resp_name" name="resp">
+        <input type="text" id="resp_role" name="resp">
+        <input type="text" id="resp_time" name="resp">
+    </form>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript">
+        $('#name_form').submit(function(e) {
+                e.preventDefault();
+                // alert($('#nome').val());
+
+                produto = {
+                    first_name: $('#name').val(),
+                    last_name: $('#last_name').val(),
+                    time: $('#time').val(),
+                    role: $('#role').val()
+
+                };
+
+                $.ajax({
+                    type: 'POST',
+                        url: '/api/exemplo',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        data: JSON.stringify(produto),
+                        success: function(callback) {
+                            console.log(callback);
+                            $('#resp_name').val('Primeiro Nome:'+callback.nome);
+                            $('#resp_role').val('Função:'+callback.role)
+                            $('#resp_time').val('Time:'+callback.time)
+
+                            $('#name').val('')
+                            $('#role').val('')
+                            $('#time').val('')
+                        },
+                        error: function() {
+                            $(this).html("error!");
+                        }
+                });
+        });
+    </script>
+</html>
